@@ -10,6 +10,9 @@ public class PlayerController : MonoBehaviour
     Rigidbody rb;
     float xInput;
     float yInput;
+    int score = 0; // The gamer score
+    public int winScore; // Max score in the level
+    public GameObject winText; // Referance to the text
 
     private void Awake()
     {
@@ -39,5 +42,18 @@ public class PlayerController : MonoBehaviour
     private void FixedUpdate()
     {
         rb.AddForce(xInput * speed, 0, yInput * speed);
+    }
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.tag == "coin")
+        {
+            other.gameObject.SetActive(false);  // Hide the coin
+            score++; // add 1 to score
+
+            if(score>=winScore)
+            {
+                winText.SetActive(true);
+            }
+        }
     }
 }
